@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --muted-foreground: #6b7280;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #dc2626;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #1f2937;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Global cursor pointer for all interactive elements */
+button,
+a,
+[role="button"],
+[onclick],
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Ensure disabled buttons show not-allowed cursor */
+button:disabled,
+button.disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* Low-key hover effects for interactive elements */
+button:not(:disabled):not(.disabled),
+a:not([aria-disabled="true"]),
+[role="button"]:not([aria-disabled="true"]) {
+  transition: all 0.15s ease-in-out;
+}
+
+/* Subtle hover lift effect for cards and clickable elements */
+.hover-lift {
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon hover effects */
+button svg,
+a svg,
+[role="button"] svg {
+  transition: transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
+}
+
+button:not(:disabled):hover svg,
+a:hover svg,
+[role="button"]:not([aria-disabled="true"]):hover svg {
+  transform: scale(1.05);
+}
+
+/* Select dropdowns should have default cursor */
+select,
+option,
+.appearance-none {
+  cursor: default;
+}
+
+/* But the dropdown arrow/button should have pointer */
+select:not(:disabled) {
+  cursor: pointer;
+}

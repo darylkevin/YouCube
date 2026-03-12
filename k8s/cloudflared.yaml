@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cloudflare-tunnel
+  name: cloudflare-tunnel
+  namespace: prod-youcube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflare-tunnel
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cloudflare-tunnel
+    spec:
+      containers:
+      - image: cloudflare/cloudflared:latest
+        name: cloudflared
+        args:
+          - tunnel
+          - --url
+          - http://nextjs.prod-youcube.svc.cluster.local:3000

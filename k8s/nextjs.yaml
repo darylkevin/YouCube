@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextjs
+  namespace: prod-youcube
+  labels:
+    app: nextjs
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 3000
+    targetPort: 3000
+    protocol: TCP
+  selector:
+    app: nextjs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextjs
+  namespace: prod-youcube
+  labels:
+    app: nextjs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextjs
+  template:
+    metadata:
+      labels:
+        app: nextjs
+    spec:
+      containers:
+      - name: nextjs
+        image: youcube:dev
+        imagePullPolicy: Never
+        command: ["/bin/sh", "-c", "cd frontend && pnpm start"]
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: youcube-config
+        env:
+        - name: NODE_ENV
+          value: "production"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5

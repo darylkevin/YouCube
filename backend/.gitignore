@@ -1,0 +1,7 @@
+.env
+.env.local
+k8s/
+venv/
+references/
+__pycache__/
+*.pyc
