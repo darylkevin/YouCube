@@ -24,6 +24,9 @@ class Settings(BaseSettings):
 
     CELERY_WORKER_CONCURRENCY: int
 
+    SERPAPI_URL: str
+    SERPAPI_KEY: str
+    
     OPENROUTER_URL: str
     OPENROUTER_KEY: str
     OPENROUTER_FREE_MODEL1: str

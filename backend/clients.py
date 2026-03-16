@@ -1,4 +1,5 @@
 import re
+import serpapi
 import requests
 
 from typing import Optional
@@ -68,11 +69,38 @@ def get_youtube_thumbnail(video_id: str) -> str:
 # --- YoutubeTranscriptAPI Client ---
 def fetch_youtube_transcript(video_id: str) -> str:
     """Fetches Transcript via youtube-transcript-api."""
-    try:
-        api = YouTubeTranscriptApi()
 
-        transcript = ""
-        transcript_data = api.fetch(
+    transcript = ""
+    error = ""
+
+    """SerpAPI"""
+    try:
+        serpapi_client = serpapi.Client(
+            api_key=settings.SERPAPI_KEY
+        )
+        search_api_response_dict = serpapi_client.search(
+            engine = "youtube_video_transcript",
+            v = video_id,
+            type = "asr"
+        )
+        search_transcript_list = search_api_response_dict.get("transcript", [])
+
+        if len(search_transcript_list) > 0:
+            for search_transcript_element in search_transcript_list:
+                search_individual_snippet = search_transcript_element.get("snippet")
+                if search_individual_snippet is not None:
+                    transcript = transcript + str(search_individual_snippet) + " "
+
+            return transcript
+        
+    except Exception as e:
+        error += f"SerpAPI failed, trying fallback: {str(e)}"
+
+    """Youtube Transcribe API"""
+    try:
+        youtube_transcript_api = YouTubeTranscriptApi()
+
+        transcript_data = youtube_transcript_api.fetch(
             video_id=video_id,
             languages=['id', 'en']
         )
@@ -83,7 +111,8 @@ def fetch_youtube_transcript(video_id: str) -> str:
         return transcript
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error fetching transcript: {str(e)}")
+        error += f"Youtube Transcribe API failed: {str(e)}"
+        raise HTTPException(status_code=500, detail=f"Both transcript sources failed. Traceback: {str(error)}")
 
 
 # --- OpenRouter Client ---
