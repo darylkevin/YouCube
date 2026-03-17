@@ -186,7 +186,7 @@ export default function JobDetailPage() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setTranscriptCollapsed(!transcriptCollapsed)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground text-sm font-medium transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/80 hover:bg-secondary text-foreground text-sm font-medium transition-all"
                   >
                     {transcriptCollapsed ? (
                       <>
@@ -202,7 +202,7 @@ export default function JobDetailPage() {
                   </button>
                   <button
                     onClick={handleCopyTranscript}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground text-sm font-medium transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/80 hover:bg-secondary text-foreground text-sm font-medium transition-all"
                   >
                     {copiedTranscript ? (
                       <>
@@ -236,7 +236,7 @@ export default function JobDetailPage() {
                 </div>
                 <button
                   onClick={handleCopySummary}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground text-sm font-medium transition-all"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/80 hover:bg-secondary text-foreground text-sm font-medium transition-all"
                 >
                   {copiedSummary ? (
                     <>
@@ -253,7 +253,7 @@ export default function JobDetailPage() {
               </div>
               <div className="bg-secondary border border-border rounded-lg p-4 max-h-192 overflow-y-auto">
                 <div
-                  className="prose max-w-none prose-neutral dark:prose-invert leading-relaxed text-foreground"
+                  className="prose max-w-none leading-relaxed prose-p:text-foreground prose-headings:text-foreground prose-strong:text-foreground prose-a:text-foreground prose-ul:text-foreground prose-ol:text-foreground prose-li:text-foreground prose-h1:text-foreground prose-h2:text-foreground prose-h3:text-foreground prose-h4:text-foreground prose-h5:text-foreground prose-h6:text-foreground dark:prose-invert"
                   dangerouslySetInnerHTML={{ __html: marked.parse(job.summary) as string }}
                 />
               </div>

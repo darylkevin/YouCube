@@ -182,7 +182,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
                 {isCompleted(job.status) && (
                   <Link
                     href={`/history/${job.id}`}
-                    className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-secondary hover:bg-secondary/80 text-foreground transition-all hover:scale-105"
+                    className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-secondary/80 hover:bg-secondary text-foreground transition-all hover:scale-105"
                   >
                     <FileText className="w-3 h-3 hover:scale-110 transition-transform" />
                     <span className="hidden sm:inline">Details</span>
