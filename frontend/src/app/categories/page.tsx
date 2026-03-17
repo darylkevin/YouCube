@@ -202,18 +202,18 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Categories & Prompts</h1>
-        <p className="text-muted-foreground mt-1">Manage your categories and custom prompts</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-foreground">Categories & Prompts</h1>
+        <p className="text-sm sm:text-base text-muted-foreground mt-1">Manage your categories and custom prompts</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Categories List */}
-        <div className="lg:col-span-1 space-y-4">
+        <div className="lg:col-span-1 space-y-3 sm:space-y-4">
           {/* Create Category Form */}
-          <div className="bg-card rounded-lg shadow-sm border p-4">
+          <div className="bg-card rounded-lg shadow-sm border p-3 sm:p-4">
             <h2 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
               <Plus className="w-4 h-4" />
               New Category
@@ -255,7 +255,7 @@ export default function CategoriesPage() {
 
           {/* Categories */}
           <div className="bg-card rounded-lg shadow-sm border">
-            <div className="p-4 border-b">
+            <div className="p-3 sm:p-4 border-b">
               <h2 className="text-sm font-semibold text-foreground">All Categories</h2>
             </div>
             <div className="divide-y">
@@ -267,31 +267,31 @@ export default function CategoriesPage() {
                 categories?.map((category) => (
                   <div
                     key={category.id}
-                    className={`p-4 hover:bg-slate-100 cursor-pointer transition-colors ${
+                    className={`p-3 sm:p-4 hover:bg-slate-100 cursor-pointer transition-colors ${
                       selectedCategoryId === category.id ? "bg-red-50" : ""
                     }`}
                     onClick={() => handleCategorySelect(category.id)}
                   >
-                    <div className="flex items-start justify-between">
+                    <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-foreground">{category.name}</span>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-medium text-foreground text-sm sm:text-base">{category.name}</span>
                           {category.is_protected && (
-                            <Shield className="w-3 h-3 text-muted-foreground" />
+                            <Shield className="w-3 h-3 text-muted-foreground shrink-0" />
                           )}
                         </div>
                         {category.description && (
-                          <p className="text-sm text-muted-foreground mt-1 truncate">{category.description}</p>
+                          <p className="text-xs sm:text-sm text-muted-foreground mt-1 truncate">{category.description}</p>
                         )}
                       </div>
                       {!category.is_protected && (
-                        <div className="flex items-center gap-1 ml-2">
+                        <div className="flex items-center gap-1 shrink-0">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               handleDeleteCategory(category.id);
                             }}
-                            className="p-1 hover:bg-red-100 rounded transition-all hover:scale-110"
+                            className="p-1.5 hover:bg-red-100 rounded transition-all hover:scale-110"
                             title="Delete"
                           >
                             <Trash2 className="w-4 h-4 text-red-500" />
@@ -310,23 +310,23 @@ export default function CategoriesPage() {
         <div className="lg:col-span-2">
           {selectedCategoryId && selectedCategory ? (
             <div className="bg-card rounded-lg shadow-sm border">
-              <div className="p-4 border-b flex items-center justify-between">
-                <div>
-                  <h2 className="text-lg font-semibold text-foreground">{selectedCategory.name}</h2>
+              <div className="p-3 sm:p-4 border-b flex items-center justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-base sm:text-lg font-semibold text-foreground truncate">{selectedCategory.name}</h2>
                   {selectedCategory.description && (
-                    <p className="text-sm text-muted-foreground mt-1">{selectedCategory.description}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-1 truncate">{selectedCategory.description}</p>
                   )}
                 </div>
                 <button
                   onClick={() => setSelectedCategoryId(null)}
-                  className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 hover:underline transition-all"
+                  className="shrink-0 text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 hover:underline transition-all"
                 >
                   <X className="w-4 h-4 hover:scale-110 transition-transform" />
-                  Close
+                  <span className="hidden sm:inline">Close</span>
                 </button>
               </div>
 
-              <div className="p-4 space-y-6">
+              <div className="p-3 sm:p-4 space-y-4 sm:space-y-6">
                 {/* Edit Category (only for non-protected) */}
                 {!selectedCategory.is_protected && editingCategory === selectedCategory.id ? (
                   <div className="bg-slate-100 rounded-lg p-4 space-y-3">
@@ -423,7 +423,7 @@ export default function CategoriesPage() {
                       prompts?.map((prompt) => (
                         <div
                           key={prompt.id}
-                          className="border rounded-lg p-4 hover:border-gray-300 transition-colors"
+                          className="border rounded-lg p-3 sm:p-4 hover:border-gray-300 transition-colors"
                         >
                           {editingPrompt === prompt.id ? (
                             <div className="space-y-3">
@@ -439,31 +439,31 @@ export default function CategoriesPage() {
                                   className="py-1.5 px-3 rounded-md bg-green-600 hover:bg-green-700 text-white text-xs font-medium transition-all hover:scale-105 flex items-center gap-1"
                                 >
                                   <Save className="w-3 h-3" />
-                                  Save
+                                  <span className="hidden sm:inline">Save</span>
                                 </button>
                                 <button
                                   onClick={() => setEditingPrompt(null)}
                                   className="py-1.5 px-3 rounded-md bg-slate-100 hover:bg-slate-100/80 text-foreground text-xs font-medium transition-all hover:scale-105 flex items-center gap-1"
                                 >
                                   <X className="w-3 h-3" />
-                                  Cancel
+                                  <span className="hidden sm:inline">Cancel</span>
                                 </button>
                               </div>
                             </div>
                           ) : (
                             <div className="flex items-start justify-between gap-3">
-                              <p className="text-sm text-foreground flex-1">{prompt.text}</p>
+                              <p className="text-sm text-foreground flex-1 break-words">{prompt.text}</p>
                               <div className="flex items-center gap-1 shrink-0">
                                 <button
                                   onClick={() => handleStartEditPrompt(prompt)}
-                                  className="p-1 hover:bg-slate-100 rounded transition-all hover:scale-110"
+                                  className="p-1.5 hover:bg-slate-100 rounded transition-all hover:scale-110"
                                   title="Edit"
                                 >
                                   <Pencil className="w-4 h-4 text-muted-foreground" />
                                 </button>
                                 <button
                                   onClick={() => handleDeletePrompt(prompt.id)}
-                                  className="p-1 hover:bg-red-100 rounded transition-all hover:scale-110"
+                                  className="p-1.5 hover:bg-red-100 rounded transition-all hover:scale-110"
                                   title="Delete"
                                 >
                                   <Trash2 className="w-4 h-4 text-red-500" />
@@ -496,36 +496,36 @@ export default function CategoriesPage() {
                       displayCategoryJobs?.map((job) => (
                         <div
                           key={job.id}
-                          className="border rounded-lg p-4 hover:border-gray-300 transition-colors bg-card"
+                          className="border rounded-lg p-3 sm:p-4 hover:border-gray-300 transition-colors bg-card"
                         >
-                          <div className="flex items-start gap-4">
+                          <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
                             {job.youtube_thumbnail ? (
                               <img
                                 src={job.youtube_thumbnail}
                                 alt={job.youtube_title || "Video thumbnail"}
-                                className="w-32 h-20 object-cover rounded-lg shrink-0"
+                                className="w-full sm:w-32 h-48 sm:h-20 object-cover rounded-lg shrink-0"
                               />
                             ) : (
-                              <div className="w-32 h-20 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
+                              <div className="w-full sm:w-32 h-48 sm:h-20 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
                                 <ExternalLink className="w-6 h-6 text-muted-foreground" />
                               </div>
                             )}
                             <div className="flex-1 min-w-0">
-                              <h4 className="font-medium text-foreground truncate">
+                              <h4 className="font-medium text-foreground text-sm sm:text-base truncate">
                                 {job.youtube_title || "Untitled Video"}
                               </h4>
-                              <div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground">
+                              <div className="flex items-center gap-3 mt-1 text-xs sm:text-sm text-muted-foreground">
                                 <span className="flex items-center gap-1">
                                   <Clock className="w-3 h-3" />
                                   {formatDate(job.created_at)}
                                 </span>
                               </div>
-                              <div className="flex items-center gap-2 mt-2">
+                              <div className="flex flex-wrap items-center gap-2 mt-2">
                                 <JobStatusBadge jobId={job.id} compact />
                                 {isCompleted(job.status) && (
                                   <Link
                                     href={`/history/${job.id}`}
-                                    className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground hover:underline transition-all"
+                                    className="inline-flex items-center gap-1 text-xs sm:text-sm text-muted-foreground hover:text-foreground hover:underline transition-all"
                                   >
                                     <FileText className="w-3 h-3 hover:scale-110 transition-transform" />
                                     View Details
@@ -536,7 +536,7 @@ export default function CategoriesPage() {
                                     href={job.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 text-sm text-red-600 hover:text-red-700 hover:underline transition-all"
+                                    className="inline-flex items-center gap-1 text-xs sm:text-sm text-red-600 hover:text-red-700 hover:underline transition-all"
                                   >
                                     <ExternalLink className="w-3 h-3 hover:scale-110 transition-transform" />
                                     Watch
@@ -552,25 +552,25 @@ export default function CategoriesPage() {
 
                   {/* Pagination Controls */}
                   {displayCategoryJobs && displayCategoryJobs.length > 0 && (
-                    <div className="flex items-center justify-between pt-4 border-t border-border">
-                      <span className="text-sm text-muted-foreground">
+                    <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-border">
+                      <span className="text-xs sm:text-sm text-muted-foreground">
                         Page {categoryJobsPage + 1}
                       </span>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleCategoryJobsPageChange(categoryJobsPage - 1)}
                           disabled={categoryJobsPage === 0}
-                          className="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
                           <ChevronLeft className="w-4 h-4" />
-                          Previous
+                          <span className="hidden sm:inline">Previous</span>
                         </button>
                         <button
                           onClick={() => handleCategoryJobsPageChange(categoryJobsPage + 1)}
                           disabled={!hasMoreCategoryJobs}
-                          className="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
-                          Next
+                          <span className="hidden sm:inline">Next</span>
                           <ChevronRight className="w-4 h-4" />
                         </button>
                       </div>
@@ -580,10 +580,10 @@ export default function CategoriesPage() {
               </div>
             </div>
           ) : (
-            <div className="bg-card rounded-lg shadow-sm border p-12 text-center">
-              <FolderOpen className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-medium text-foreground mb-2">Select a Category</h3>
-              <p className="text-muted-foreground">
+            <div className="bg-card rounded-lg shadow-sm border p-8 sm:p-12 text-center">
+              <FolderOpen className="w-10 h-10 sm:w-12 sm:h-12 mx-auto text-muted-foreground mb-4" />
+              <h3 className="text-base sm:text-lg font-medium text-foreground mb-2">Select a Category</h3>
+              <p className="text-sm sm:text-base text-muted-foreground">
                 Choose a category from the list to manage its prompts and view associated videos
               </p>
             </div>

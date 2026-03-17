@@ -115,25 +115,6 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
 
   return (
     <div className="relative">
-      {/* Navigation Buttons */}
-      <button
-        onClick={goToPrevious}
-        disabled={!canGoPrevious}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-24 z-10 p-2 rounded-full bg-card border border-border shadow-lg disabled:opacity-0 disabled:cursor-not-allowed hover:bg-slate-100 hover:scale-110 transition-all"
-        aria-label="Previous jobs"
-      >
-        <ChevronLeft className="w-5 h-5 text-foreground" />
-      </button>
-
-      <button
-        onClick={goToNext}
-        disabled={!canGoNext}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-24 z-10 p-2 rounded-full bg-card border border-border shadow-lg disabled:opacity-0 disabled:cursor-not-allowed hover:bg-slate-100 hover:scale-110 transition-all"
-        aria-label="Next jobs"
-      >
-        <ChevronRight className="w-5 h-5 text-foreground" />
-      </button>
-
       {/* Carousel Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {visibleJobs.map((job) => (
@@ -147,14 +128,14 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
                 <img
                   src={job.youtube_thumbnail}
                   alt={job.youtube_title || "Video thumbnail"}
-                  className="w-full h-60 object-cover transition-transform group-hover:scale-105"
+                  className="w-full h-48 sm:h-60 object-cover transition-transform group-hover:scale-105"
                 />
               ) : (
-                <div className="w-full h-60 bg-slate-100 flex items-center justify-center">
-                  <ExternalLink className="w-12 h-12 text-muted-foreground" />
+                <div className="w-full h-48 sm:h-60 bg-slate-100 flex items-center justify-center">
+                  <ExternalLink className="w-8 h-8 sm:w-12 sm:h-12 text-muted-foreground" />
                 </div>
               )}
-              
+
               {/* Status Badge Overlay */}
               <div className="absolute top-2 right-2">
                 <JobStatusBadge jobId={job.id} compact />
@@ -162,9 +143,9 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
             </div>
 
             {/* Card Content */}
-            <div className="p-4 space-y-3">
+            <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
               {/* Title */}
-              <h3 className="font-medium text-foreground line-clamp-2 min-h-10">
+              <h3 className="font-medium text-foreground text-sm sm:text-base line-clamp-2 min-h-[2.5rem] sm:min-h-10">
                 {job.youtube_title || "Untitled Video"}
               </h3>
 
@@ -186,41 +167,82 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-2 pt-2 border-t border-border">
+              <div className="flex items-center gap-2 pt-2 sm:pt-3 border-t border-border">
                 {job.url && (
                   <a
                     href={job.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 rounded-md text-xs font-medium bg-red-600 hover:bg-red-700 text-white transition-all hover:scale-105"
+                    className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-red-600 hover:bg-red-700 text-white transition-all hover:scale-105"
                   >
                     <ExternalLink className="w-3 h-3 hover:scale-110 transition-transform" />
-                    Watch
+                    <span className="hidden sm:inline">Watch</span>
                   </a>
                 )}
                 {isCompleted(job.status) && (
                   <Link
                     href={`/history/${job.id}`}
-                    className="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 rounded-md text-xs font-medium bg-slate-100 hover:bg-slate-100/80 text-foreground transition-all hover:scale-105"
+                    className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-slate-100 hover:bg-slate-100/80 text-foreground transition-all hover:scale-105"
                   >
                     <FileText className="w-3 h-3 hover:scale-110 transition-transform" />
-                    Details
+                    <span className="hidden sm:inline">Details</span>
                   </Link>
                 )}
                 {isFailedOrCancelled(job.status) && (
                   <button
                     onClick={() => handleRetry(job.id)}
                     disabled={retryJob.isPending}
-                    className="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 rounded-md text-xs font-medium bg-green-600 hover:bg-green-700 text-white transition-all hover:scale-105 disabled:opacity-50"
+                    className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-green-600 hover:bg-green-700 text-white transition-all hover:scale-105 disabled:opacity-50"
                   >
                     <RefreshCw className={`w-3 h-3 ${retryJob.isPending ? "animate-spin" : ""} hover:scale-110 transition-transform`} />
-                    Retry
+                    <span className="hidden sm:inline">Retry</span>
                   </button>
                 )}
               </div>
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Navigation Buttons - On-card for mobile, external for desktop */}
+      <div className="flex items-center justify-between gap-2 mt-4 sm:hidden">
+        <button
+          onClick={goToPrevious}
+          disabled={!canGoPrevious}
+          className="flex-1 py-2.5 px-4 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          Previous
+        </button>
+        <button
+          onClick={goToNext}
+          disabled={!canGoNext}
+          className="flex-1 py-2.5 px-4 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          Next
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Desktop Navigation Buttons (external) */}
+      <div className="hidden sm:block">
+        <button
+          onClick={goToPrevious}
+          disabled={!canGoPrevious}
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-24 z-10 p-2 rounded-full bg-card border border-border shadow-lg disabled:opacity-0 disabled:cursor-not-allowed hover:bg-slate-100 hover:scale-110 transition-all"
+          aria-label="Previous jobs"
+        >
+          <ChevronLeft className="w-5 h-5 text-foreground" />
+        </button>
+
+        <button
+          onClick={goToNext}
+          disabled={!canGoNext}
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-24 z-10 p-2 rounded-full bg-card border border-border shadow-lg disabled:opacity-0 disabled:cursor-not-allowed hover:bg-slate-100 hover:scale-110 transition-all"
+          aria-label="Next jobs"
+        >
+          <ChevronRight className="w-5 h-5 text-foreground" />
+        </button>
       </div>
 
       {/* Pagination Dots */}

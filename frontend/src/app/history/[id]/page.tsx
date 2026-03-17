@@ -110,24 +110,24 @@ export default function JobDetailPage() {
       {/* Main Content */}
       <div className="bg-card rounded-lg shadow-sm border overflow-hidden">
         {/* Header with Thumbnail */}
-        <div className="bg-linear-to-r from-secondary to-card border-b p-6">
-          <div className="flex items-start gap-6">
+        <div className="bg-linear-to-r from-secondary to-card border-b p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
             {job.youtube_thumbnail ? (
               <img
                 src={job.youtube_thumbnail}
                 alt={job.youtube_title || "Video thumbnail"}
-                className="w-64 h-36 object-cover rounded-lg shadow-sm shrink-0"
+                className="w-full sm:w-64 h-36 object-cover rounded-lg shadow-sm shrink-0"
               />
             ) : (
-              <div className="w-64 h-36 bg-slate-100 rounded-lg flex items-center justify-center shrink-0 shadow-sm">
+              <div className="w-full sm:w-64 h-36 bg-slate-100 rounded-lg flex items-center justify-center shrink-0 shadow-sm">
                 <Film className="w-12 h-12 text-muted-foreground" />
               </div>
             )}
-            <div className="flex-1 min-w-0">
-              <h1 className="text-2xl font-bold text-foreground mb-2">
+            <div className="flex-1 min-w-0 w-full">
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2 break-words">
                 {job.youtube_title || "Untitled Video"}
               </h1>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-2 sm:gap-4 text-sm text-muted-foreground mb-3">
                 <span className="flex items-center gap-1.5">
                   <Tag className="w-4 h-4" />
                   {getCategoryName(job.category_id || 0)}
@@ -139,7 +139,7 @@ export default function JobDetailPage() {
                   href={job.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition-all hover:scale-105"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition-all hover:scale-105"
                 >
                   <ExternalLink className="w-4 h-4 hover:scale-110 transition-transform" />
                   Watch on YouTube

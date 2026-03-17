@@ -57,28 +57,28 @@ export default function HomePage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-foreground mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
           Transform YouTube Videos into Insights
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-sm sm:text-base text-muted-foreground">
           Paste any YouTube URL and get AI-powered transcriptions and summaries
         </p>
       </div>
 
       {/* Recent Job Status */}
       {submittedJobId && (
-        <div className="bg-card rounded-lg shadow-sm border p-4">
-          <div className="flex items-center justify-between">
-            <div>
+        <div className="bg-card rounded-lg shadow-sm border p-3 sm:p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex-1 min-w-0">
               <h3 className="text-sm font-medium text-foreground mb-1">Latest Job Status</h3>
               <JobStatusBadge jobId={submittedJobId} />
             </div>
             <button
               onClick={() => setSubmittedJobId(null)}
-              className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-all"
+              className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-all shrink-0"
             >
               Dismiss
             </button>
@@ -87,7 +87,7 @@ export default function HomePage() {
       )}
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="max-w-3xl mx-auto bg-card rounded-lg shadow-sm border p-6 space-y-6">
+      <form onSubmit={handleSubmit} className="max-w-3xl mx-auto bg-card rounded-lg shadow-sm border p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* URL Input */}
         <div>
           <label className="block text-sm font-medium text-foreground mb-2">
@@ -99,7 +99,7 @@ export default function HomePage() {
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://www.youtube.com/watch?v=..."
             disabled={submitJob.isPending || categoriesLoading}
-            className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all disabled:opacity-50"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all disabled:opacity-50 text-sm sm:text-base"
           />
         </div>
 
@@ -108,33 +108,33 @@ export default function HomePage() {
           <label className="block text-sm font-medium text-foreground mb-3">
             Processing Type
           </label>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setProcessType("transcript")}
-              className={`p-4 rounded-lg border-2 transition-all hover:scale-[1.02] ${
+              className={`p-3 sm:p-4 rounded-lg border-2 transition-all hover:scale-[1.02] ${
                 processType === "transcript"
                   ? "border-red-500 bg-red-50"
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >
               <div className="text-center">
-                <div className="font-medium text-foreground">Transcript Only</div>
-                <div className="text-sm text-muted-foreground mt-1">Get full transcription</div>
+                <div className="font-medium text-foreground text-sm sm:text-base">Transcript Only</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">Get full transcription</div>
               </div>
             </button>
             <button
               type="button"
               onClick={() => setProcessType("summarize")}
-              className={`p-4 rounded-lg border-2 transition-all hover:scale-[1.02] ${
+              className={`p-3 sm:p-4 rounded-lg border-2 transition-all hover:scale-[1.02] ${
                 processType === "summarize"
                   ? "border-red-500 bg-red-50"
                   : "border-gray-200 hover:border-gray-300"
               }`}
             >
               <div className="text-center">
-                <div className="font-medium text-foreground">Transcribe & Summarize</div>
-                <div className="text-sm text-muted-foreground mt-1">Get summary with category</div>
+                <div className="font-medium text-foreground text-sm sm:text-base">Transcribe & Summarize</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1">Get summary with category</div>
               </div>
             </button>
           </div>
@@ -160,7 +160,7 @@ export default function HomePage() {
                     setCustomPrompt("");
                   }}
                   disabled={submitJob.isPending}
-                  className="w-full px-4 py-3 pr-10 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all disabled:opacity-50 appearance-none"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all disabled:opacity-50 appearance-none text-sm sm:text-base"
                 >
                   {categories?.map((category) => (
                     <option key={category.id} value={category.id}>
@@ -184,7 +184,7 @@ export default function HomePage() {
                       value={selectedPromptId || ""}
                       onChange={handlePromptChange}
                       disabled={submitJob.isPending}
-                      className="w-full px-4 py-3 pr-10 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all disabled:opacity-50 appearance-none"
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all disabled:opacity-50 appearance-none text-sm sm:text-base"
                     >
                       <option value="">Select a prompt...</option>
                       {prompts?.map((prompt) => (
@@ -209,7 +209,7 @@ export default function HomePage() {
                     placeholder="Enter or modify the prompt..."
                     rows={4}
                     disabled={submitJob.isPending}
-                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all disabled:opacity-50 resize-none"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all disabled:opacity-50 resize-none text-sm sm:text-base"
                   />
                 </div>
               </>
@@ -219,8 +219,8 @@ export default function HomePage() {
 
         {/* Error Display */}
         {submitJob.error && (
-          <div className="flex items-center gap-2 text-red-600 bg-red-50 p-3 rounded-lg">
-            <AlertCircle className="w-5 h-5" />
+          <div className="flex items-start gap-2 text-red-600 bg-red-50 p-3 rounded-lg">
+            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
             <span className="text-sm">{submitJob.error.message}</span>
           </div>
         )}
@@ -229,7 +229,7 @@ export default function HomePage() {
         <button
           type="submit"
           disabled={!url.trim() || submitJob.isPending}
-          className="w-full py-3 px-6 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-[1.01] flex items-center justify-center gap-2"
+          className="w-full py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-[1.01] flex items-center justify-center gap-2 text-sm sm:text-base"
         >
           {submitJob.isPending ? (
             <>
@@ -246,8 +246,8 @@ export default function HomePage() {
       </form>
 
       {/* Recent Jobs Carousel */}
-      <div className="bg-card rounded-lg shadow-sm border p-6">
-        <h2 className="text-xl font-semibold text-foreground mb-4">Recent Jobs</h2>
+      <div className="bg-card rounded-lg shadow-sm border p-4 sm:p-6">
+        <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-4">Recent Jobs</h2>
         <JobsCarousel categories={categories} />
       </div>
     </div>

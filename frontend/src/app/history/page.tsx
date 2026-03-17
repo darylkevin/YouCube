@@ -155,43 +155,43 @@ export default function HistoryPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
 
         {/* Stats Banner */}
         {totalJobs > 0 && (
-          <div className="relative mx-auto overflow-hidden rounded-2xlto-yellow-500 p-0.5">
-            <div className="absolute inset-0to-yellow-500 opacity-50 blur-xl animate-pulse"></div>
-            <div className="relative bg-card rounded-2xl p-6">
+          <div className="relative mx-auto overflow-hidden rounded-xl sm:rounded-2xl p-0.5">
+            <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 opacity-50 blur-xl animate-pulse"></div>
+            <div className="relative bg-card rounded-xl sm:rounded-2xl p-4 sm:p-6">
               <div className="flex items-center justify-center gap-2 mb-3">
               </div>
-              <p className="text-2xl font-semibold text-foreground mb-2 text-center">
-                🎉 You've transcribed and summarized{" "}
-                <span className="text-3xl bg-linear-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+              <p className="text-lg sm:text-2xl font-semibold text-foreground mb-2 text-center">
+                🎉 You&apos;ve transcribed and summarized{" "}
+                <span className="text-xl sm:text-3xl bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
                   {totalJobs}
                 </span>{" "}
                 {totalJobs === 1 ? "video" : "videos"}!
               </p>
-              <p className="text-xl text-muted-foreground text-center">
-                That's some serious time saved! Don't forget to read through your insights 📚
+              <p className="text-sm sm:text-xl text-muted-foreground text-center">
+                That&apos;s some serious time saved! Don&apos;t forget to read through your insights 📚
               </p>
             </div>
           </div>
         )}
 
-      <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">History</h1>
-            <p className="text-muted-foreground mt-1">View all processed videos and their status</p>
+      <div className="space-y-3 sm:space-y-4">
+        <div className="flex justify-between items-start gap-3">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground">History</h1>
+            <p className="text-sm sm:text-base text-muted-foreground mt-1">View all processed videos and their status</p>
           </div>
           {
             !bulkDeleteMode && (
               <button
                 onClick={toggleBulkDeleteMode}
-                className="inline-flex items-center gap-2 py-2 rounded-lg text-foreground text-sm font-medium transition-all hover:scale-105"
+                className="shrink-0 p-2 inline-flex items-center justify-center rounded-lg text-foreground text-sm font-medium transition-all hover:scale-105 hover:bg-slate-100"
               >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-5 h-5" />
               </button>
             )
           }
@@ -199,8 +199,8 @@ export default function HistoryPage() {
       </div>
 
       {/* Bulk Delete Controls */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
           {bulkDeleteMode && (
             <>
               <button
@@ -212,7 +212,8 @@ export default function HistoryPage() {
                 ) : (
                   <SquareIcon className="w-5 h-5" />
                 )}
-                {selectedJobs.size === displayJobs?.length ? "Deselect all" : "Select all"}
+                <span className="hidden sm:inline">{selectedJobs.size === displayJobs?.length ? "Deselect all" : "Select all"}</span>
+                <span className="sm:hidden">{selectedJobs.size === displayJobs?.length ? "Deselect all" : "Select all"}</span>
               </button>
               <span className="text-sm text-muted-foreground">|</span>
               <span className="text-sm text-muted-foreground">
@@ -226,17 +227,19 @@ export default function HistoryPage() {
             <>
               <button
                 onClick={toggleBulkDeleteMode}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-600 hover:bg-slate-500 text-white text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
+                className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-slate-600 hover:bg-slate-500 text-white text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
               >
-                Cancel
+                <span className="hidden sm:inline">Cancel</span>
+                <span className="sm:hidden">✕</span>
               </button>
               <button
                 onClick={handleBulkDelete}
                 disabled={deleteJobs.isPending || selectedJobs.size === 0}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
+                className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
               >
                 <Trash2 className="w-4 h-4" />
-                Delete {selectedJobs.size > 0 ? `(${selectedJobs.size})` : ""}
+                <span className="hidden sm:inline">Delete {selectedJobs.size > 0 ? `(${selectedJobs.size})` : ""}</span>
+                <span className="sm:hidden">{selectedJobs.size > 0 ? `(${selectedJobs.size})` : ""}</span>
               </button>
             </>
           )}
@@ -266,13 +269,13 @@ export default function HistoryPage() {
                   selectedJobs.has(job.id) ? "ring-2 ring-red-500 ring-offset-2" : ""
                 }`}
               >
-                <div className="p-4">
-                  <div className="flex items-start gap-4">
+                <div className="p-3 sm:p-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
                     {/* Checkbox - Only show in bulk delete mode */}
                     {bulkDeleteMode && (
                       <button
                         onClick={() => toggleSelectJob(job.id)}
-                        className="mt-1 shrink-0 hover:scale-110 transition-transform"
+                        className="shrink-0 hover:scale-110 transition-transform"
                         title={selectedJobs.has(job.id) ? "Deselect" : "Select"}
                       >
                         {selectedJobs.has(job.id) ? (
@@ -288,22 +291,22 @@ export default function HistoryPage() {
                       <img
                         src={job.youtube_thumbnail}
                         alt={job.youtube_title || "Video thumbnail"}
-                        className="w-40 h-24 object-cover rounded-lg shrink-0 hover:scale-105 transition-transform"
+                        className="w-full sm:w-40 h-48 sm:h-24 object-cover rounded-lg shrink-0 hover:scale-105 transition-transform"
                       />
                     ) : (
-                      <div className="w-40 h-24 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
-                        <ExternalLink className="w-8 h-8 text-muted-foreground" />
+                      <div className="w-full sm:w-40 h-48 sm:h-24 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
+                        <ExternalLink className="w-8 h-8 sm:w-8 sm:h-8 text-muted-foreground" />
                       </div>
                     )}
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start justify-between gap-3 sm:gap-4">
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-medium text-foreground truncate">
+                          <h3 className="font-medium text-foreground text-sm sm:text-base truncate">
                             {job.youtube_title || "Untitled Video"}
                           </h3>
-                          <div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground">
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1 text-xs sm:text-sm text-muted-foreground">
                             <span className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               {formatDate(job.created_at)}
@@ -312,11 +315,13 @@ export default function HistoryPage() {
                             <span>{getCategoryName(job.category_id)}</span>
                           </div>
                         </div>
-                        <JobStatusBadge jobId={job.id} compact />
+                        <div className="shrink-0">
+                          <JobStatusBadge jobId={job.id} compact />
+                        </div>
                       </div>
 
                       {/* Actions */}
-                      <div className="flex items-center gap-2 mt-3">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-3">
                         {job.url && (
                           <a
                             href={job.url}
@@ -361,7 +366,7 @@ export default function HistoryPage() {
                           <button
                             onClick={() => handleDelete(job.id)}
                             disabled={deleteJob.isPending}
-                            className="inline-flex items-center gap-1 text-sm text-red-600 hover:text-red-700 disabled:opacity-50 hover:underline transition-all ml-auto"
+                            className="inline-flex items-center gap-1 text-sm text-red-600 hover:text-red-700 disabled:opacity-50 hover:underline transition-all sm:ml-auto"
                           >
                             <Trash2 className="w-3 h-3 hover:scale-110 transition-transform" />
                             Delete
@@ -412,25 +417,25 @@ export default function HistoryPage() {
 
             {/* Pagination Controls */}
             {displayJobs && displayJobs.length > 0 && (
-              <div className="flex items-center justify-between pt-4">
-                <span className="text-sm text-muted-foreground">
+              <div className="flex items-center justify-between pt-3 sm:pt-4">
+                <span className="text-xs sm:text-sm text-muted-foreground">
                   Page {page + 1}
                 </span>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page === 0}
-                    className="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                   >
                     <ChevronLeft className="w-4 h-4" />
-                    Previous
+                    <span className="hidden sm:inline">Previous</span>
                   </button>
                   <button
                     onClick={() => handlePageChange(page + 1)}
                     disabled={!hasMore}
-                    className="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                   >
-                    Next
+                    <span className="hidden sm:inline">Next</span>
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
