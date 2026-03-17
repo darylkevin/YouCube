@@ -253,7 +253,7 @@ export default function JobDetailPage() {
               </div>
               <div className="bg-secondary border border-border rounded-lg p-4 max-h-192 overflow-y-auto">
                 <div
-                  className="prose max-w-none prose-black dark:prose-invert leading-relaxed"
+                  className="prose max-w-none prose-neutral dark:prose-invert leading-relaxed text-foreground"
                   dangerouslySetInnerHTML={{ __html: marked.parse(job.summary) as string }}
                 />
               </div>
