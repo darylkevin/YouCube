@@ -26,6 +26,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
+.dark {
+  --background: #0f0f0f;
+  --foreground: #f5f5f5;
+  --muted-foreground: #a3a3a3;
+  --card: #1a1a1a;
+  --card-foreground: #f5f5f5;
+  --border: #262626;
+  --input: #262626;
+  --ring: #dc2626;
+  --secondary: #262626;
+  --secondary-foreground: #f5f5f5;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

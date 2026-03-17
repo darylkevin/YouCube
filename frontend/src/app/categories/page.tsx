@@ -267,8 +267,8 @@ export default function CategoriesPage() {
                 categories?.map((category) => (
                   <div
                     key={category.id}
-                    className={`p-3 sm:p-4 hover:bg-slate-100 cursor-pointer transition-colors ${
-                      selectedCategoryId === category.id ? "bg-red-50" : ""
+                    className={`p-3 sm:p-4 hover:bg-secondary cursor-pointer transition-colors ${
+                      selectedCategoryId === category.id ? "bg-red-50 dark:bg-red-900/20" : ""
                     }`}
                     onClick={() => handleCategorySelect(category.id)}
                   >
@@ -329,7 +329,7 @@ export default function CategoriesPage() {
               <div className="p-3 sm:p-4 space-y-4 sm:space-y-6">
                 {/* Edit Category (only for non-protected) */}
                 {!selectedCategory.is_protected && editingCategory === selectedCategory.id ? (
-                  <div className="bg-slate-100 rounded-lg p-4 space-y-3">
+                  <div className="bg-secondary rounded-lg p-4 space-y-3">
                     <h3 className="text-sm font-medium text-foreground">Edit Category</h3>
                     <input
                       type="text"
@@ -355,7 +355,7 @@ export default function CategoriesPage() {
                       </button>
                       <button
                         onClick={() => setEditingCategory(null)}
-                        className="py-2 px-4 rounded-md bg-slate-100 hover:bg-slate-100/80 text-foreground text-sm font-medium transition-all hover:scale-105 flex items-center gap-2"
+                        className="py-2 px-4 rounded-md bg-secondary hover:bg-secondary/80 text-foreground text-sm font-medium transition-all hover:scale-105 flex items-center gap-2"
                       >
                         <X className="w-4 h-4" />
                         Cancel
@@ -456,14 +456,14 @@ export default function CategoriesPage() {
                               <div className="flex items-center gap-1 shrink-0">
                                 <button
                                   onClick={() => handleStartEditPrompt(prompt)}
-                                  className="p-1.5 hover:bg-slate-100 rounded transition-all hover:scale-110"
+                                  className="p-1.5 hover:bg-secondary rounded transition-all hover:scale-110"
                                   title="Edit"
                                 >
                                   <Pencil className="w-4 h-4 text-muted-foreground" />
                                 </button>
                                 <button
                                   onClick={() => handleDeletePrompt(prompt.id)}
-                                  className="p-1.5 hover:bg-red-100 rounded transition-all hover:scale-110"
+                                  className="p-1.5 hover:bg-red-900/20 rounded transition-all hover:scale-110"
                                   title="Delete"
                                 >
                                   <Trash2 className="w-4 h-4 text-red-500" />
@@ -506,7 +506,7 @@ export default function CategoriesPage() {
                                 className="w-full sm:w-32 h-48 sm:h-20 object-cover rounded-lg shrink-0"
                               />
                             ) : (
-                              <div className="w-full sm:w-32 h-48 sm:h-20 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
+                              <div className="w-full sm:w-32 h-48 sm:h-20 bg-secondary rounded-lg flex items-center justify-center shrink-0">
                                 <ExternalLink className="w-6 h-6 text-muted-foreground" />
                               </div>
                             )}
@@ -560,7 +560,7 @@ export default function CategoriesPage() {
                         <button
                           onClick={() => handleCategoryJobsPageChange(categoryJobsPage - 1)}
                           disabled={categoryJobsPage === 0}
-                          className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                          className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
                           <ChevronLeft className="w-4 h-4" />
                           <span className="hidden sm:inline">Previous</span>
@@ -568,7 +568,7 @@ export default function CategoriesPage() {
                         <button
                           onClick={() => handleCategoryJobsPageChange(categoryJobsPage + 1)}
                           disabled={!hasMoreCategoryJobs}
-                          className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                          className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
                           <span className="hidden sm:inline">Next</span>
                           <ChevronRight className="w-4 h-4" />

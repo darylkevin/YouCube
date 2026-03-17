@@ -11,37 +11,37 @@ interface JobStatusBadgeProps {
 const statusConfig: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
   pending: {
     label: "Pending",
-    color: "bg-gray-700 text-white border-gray-800",
+    color: "bg-gray-700 text-white border-gray-800 dark:bg-gray-600 dark:border-gray-700",
     icon: <AlertCircle className="w-3 h-3" />,
   },
   transcribing: {
     label: "Transcribing",
-    color: "bg-blue-700 text-white border-blue-800",
+    color: "bg-blue-700 text-white border-blue-800 dark:bg-blue-600 dark:border-blue-700",
     icon: <Loader2 className="w-3 h-3 animate-spin" />,
   },
   transcription_completed: {
     label: "Transcription Done",
-    color: "bg-green-700 text-white border-green-800",
+    color: "bg-green-700 text-white border-green-800 dark:bg-green-600 dark:border-green-700",
     icon: <CheckCircle className="w-3 h-3" />,
   },
   summarizing: {
     label: "Summarizing",
-    color: "bg-purple-700 text-white border-purple-800",
+    color: "bg-purple-700 text-white border-purple-800 dark:bg-purple-600 dark:border-purple-700",
     icon: <Loader2 className="w-3 h-3 animate-spin" />,
   },
   summarization_completed: {
     label: "Completed",
-    color: "bg-green-700 text-white border-green-800",
+    color: "bg-green-700 text-white border-green-800 dark:bg-green-600 dark:border-green-700",
     icon: <CheckCircle className="w-3 h-3" />,
   },
   failed: {
     label: "Failed",
-    color: "bg-red-700 text-white border-red-800",
+    color: "bg-red-700 text-white border-red-800 dark:bg-red-600 dark:border-red-700",
     icon: <XCircle className="w-3 h-3" />,
   },
   cancelled: {
     label: "Cancelled",
-    color: "bg-gray-700 text-white border-gray-800",
+    color: "bg-gray-700 text-white border-gray-800 dark:bg-gray-600 dark:border-gray-700",
     icon: <XCircle className="w-3 h-3" />,
   },
 };

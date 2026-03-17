@@ -114,8 +114,8 @@ export default function HomePage() {
               onClick={() => setProcessType("transcript")}
               className={`p-3 sm:p-4 rounded-lg border-2 transition-all hover:scale-[1.02] ${
                 processType === "transcript"
-                  ? "border-red-500 bg-red-50"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "border-red-500 bg-red-50 dark:bg-red-900/20"
+                  : "border-border hover:border-muted-foreground"
               }`}
             >
               <div className="text-center">
@@ -128,8 +128,8 @@ export default function HomePage() {
               onClick={() => setProcessType("summarize")}
               className={`p-3 sm:p-4 rounded-lg border-2 transition-all hover:scale-[1.02] ${
                 processType === "summarize"
-                  ? "border-red-500 bg-red-50"
-                  : "border-gray-200 hover:border-gray-300"
+                  ? "border-red-500 bg-red-50 dark:bg-red-900/20"
+                  : "border-border hover:border-muted-foreground"
               }`}
             >
               <div className="text-center">
@@ -219,7 +219,7 @@ export default function HomePage() {
 
         {/* Error Display */}
         {submitJob.error && (
-          <div className="flex items-start gap-2 text-red-600 bg-red-50 p-3 rounded-lg">
+          <div className="flex items-start gap-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
             <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
             <span className="text-sm">{submitJob.error.message}</span>
           </div>

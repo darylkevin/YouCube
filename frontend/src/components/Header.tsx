@@ -15,7 +15,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="bg-white shadow-sm border-b border-border sticky top-0 z-50">
+    <header className="bg-card shadow-sm border-b border-border sticky top-0 z-50" style={{ backgroundColor: 'var(--card)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -45,7 +45,7 @@ export default function Header() {
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
+              className="p-2 rounded-lg hover:bg-secondary transition-colors"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -66,7 +66,7 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 text-sm font-medium text-foreground hover:bg-slate-100 rounded-lg transition-colors"
+                  className="px-4 py-3 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
                 >
                   {link.label}
                 </Link>

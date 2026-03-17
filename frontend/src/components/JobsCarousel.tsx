@@ -131,7 +131,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
                   className="w-full h-48 sm:h-60 object-cover transition-transform group-hover:scale-105"
                 />
               ) : (
-                <div className="w-full h-48 sm:h-60 bg-slate-100 flex items-center justify-center">
+                <div className="w-full h-48 sm:h-60 bg-secondary flex items-center justify-center">
                   <ExternalLink className="w-8 h-8 sm:w-12 sm:h-12 text-muted-foreground" />
                 </div>
               )}
@@ -182,7 +182,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
                 {isCompleted(job.status) && (
                   <Link
                     href={`/history/${job.id}`}
-                    className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-slate-100 hover:bg-slate-100/80 text-foreground transition-all hover:scale-105"
+                    className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-secondary hover:bg-secondary/80 text-foreground transition-all hover:scale-105"
                   >
                     <FileText className="w-3 h-3 hover:scale-110 transition-transform" />
                     <span className="hidden sm:inline">Details</span>
@@ -209,7 +209,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
         <button
           onClick={goToPrevious}
           disabled={!canGoPrevious}
-          className="flex-1 py-2.5 px-4 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="flex-1 py-2.5 px-4 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           <ChevronLeft className="w-4 h-4" />
           Previous
@@ -217,7 +217,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
         <button
           onClick={goToNext}
           disabled={!canGoNext}
-          className="flex-1 py-2.5 px-4 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="flex-1 py-2.5 px-4 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           Next
           <ChevronRight className="w-4 h-4" />
@@ -229,7 +229,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
         <button
           onClick={goToPrevious}
           disabled={!canGoPrevious}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-24 z-10 p-2 rounded-full bg-card border border-border shadow-lg disabled:opacity-0 disabled:cursor-not-allowed hover:bg-slate-100 hover:scale-110 transition-all"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-24 z-10 p-2 rounded-full bg-card border border-border shadow-lg disabled:opacity-0 disabled:cursor-not-allowed hover:bg-secondary hover:scale-110 transition-all"
           aria-label="Previous jobs"
         >
           <ChevronLeft className="w-5 h-5 text-foreground" />
@@ -238,7 +238,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
         <button
           onClick={goToNext}
           disabled={!canGoNext}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-24 z-10 p-2 rounded-full bg-card border border-border shadow-lg disabled:opacity-0 disabled:cursor-not-allowed hover:bg-slate-100 hover:scale-110 transition-all"
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-24 z-10 p-2 rounded-full bg-card border border-border shadow-lg disabled:opacity-0 disabled:cursor-not-allowed hover:bg-secondary hover:scale-110 transition-all"
           aria-label="Next jobs"
         >
           <ChevronRight className="w-5 h-5 text-foreground" />
@@ -252,7 +252,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
             key={idx}
             onClick={() => setCurrentIndex(idx)}
             className={`w-2 h-2 rounded-full transition-all hover:scale-125 ${
-              idx === currentIndex ? "bg-red-600 w-6" : "bg-slate-100 hover:bg-muted-foreground/50"
+              idx === currentIndex ? "bg-red-600 w-6" : "bg-secondary hover:bg-muted-foreground/50"
             }`}
             aria-label={`Go to slide ${idx + 1}`}
           />

@@ -189,7 +189,7 @@ export default function HistoryPage() {
             !bulkDeleteMode && (
               <button
                 onClick={toggleBulkDeleteMode}
-                className="shrink-0 p-2 inline-flex items-center justify-center rounded-lg text-foreground text-sm font-medium transition-all hover:scale-105 hover:bg-slate-100"
+                className="shrink-0 p-2 inline-flex items-center justify-center rounded-lg text-foreground text-sm font-medium transition-all hover:scale-105 hover:bg-secondary"
               >
                 <Trash2 className="w-5 h-5" />
               </button>
@@ -227,7 +227,7 @@ export default function HistoryPage() {
             <>
               <button
                 onClick={toggleBulkDeleteMode}
-                className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-slate-600 hover:bg-slate-500 text-white text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
+                className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-secondary hover:bg-muted-foreground/20 text-foreground text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105"
               >
                 <span className="hidden sm:inline">Cancel</span>
                 <span className="sm:hidden">✕</span>
@@ -294,7 +294,7 @@ export default function HistoryPage() {
                         className="w-full sm:w-40 h-48 sm:h-24 object-cover rounded-lg shrink-0 hover:scale-105 transition-transform"
                       />
                     ) : (
-                      <div className="w-full sm:w-40 h-48 sm:h-24 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
+                      <div className="w-full sm:w-40 h-48 sm:h-24 bg-secondary rounded-lg flex items-center justify-center shrink-0">
                         <ExternalLink className="w-8 h-8 sm:w-8 sm:h-8 text-muted-foreground" />
                       </div>
                     )}
@@ -379,7 +379,7 @@ export default function HistoryPage() {
 
                 {/* Expanded Details */}
                 {expandedJobId === job.id && isCompleted(job.status) && (
-                  <div className="border-t border-border bg-slate-100 p-4 space-y-4">
+                  <div className="border-t border-border bg-secondary p-4 space-y-4">
                     {job.prompt && (
                       <div>
                         <h4 className="text-sm font-medium text-foreground mb-1">Prompt</h4>
@@ -425,7 +425,7 @@ export default function HistoryPage() {
                   <button
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page === 0}
-                    className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                   >
                     <ChevronLeft className="w-4 h-4" />
                     <span className="hidden sm:inline">Previous</span>
@@ -433,7 +433,7 @@ export default function HistoryPage() {
                   <button
                     onClick={() => handlePageChange(page + 1)}
                     disabled={!hasMore}
-                    className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-100/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    className="inline-flex items-center gap-1 px-3 sm:px-4 py-2 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground font-medium transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                   >
                     <span className="hidden sm:inline">Next</span>
                     <ChevronRight className="w-4 h-4" />

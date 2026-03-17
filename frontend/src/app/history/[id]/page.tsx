@@ -87,10 +87,10 @@ export default function JobDetailPage() {
           <ArrowLeft className="w-4 h-4 hover:scale-110 transition-transform" />
           Back
         </button>
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 text-center">
           <AlertCircle className="w-12 h-12 mx-auto text-red-500 mb-4" />
-          <h2 className="text-lg font-medium text-red-900 mb-2">Job Not Found</h2>
-          <p className="text-red-700">Unable to load job details. The job may have been deleted.</p>
+          <h2 className="text-lg font-medium text-red-900 dark:text-red-300 mb-2">Job Not Found</h2>
+          <p className="text-red-700 dark:text-red-400">Unable to load job details. The job may have been deleted.</p>
         </div>
       </div>
     );
@@ -119,7 +119,7 @@ export default function JobDetailPage() {
                 className="w-full sm:w-64 h-36 object-cover rounded-lg shadow-sm shrink-0"
               />
             ) : (
-              <div className="w-full sm:w-64 h-36 bg-slate-100 rounded-lg flex items-center justify-center shrink-0 shadow-sm">
+              <div className="w-full sm:w-64 h-36 bg-secondary rounded-lg flex items-center justify-center shrink-0 shadow-sm">
                 <Film className="w-12 h-12 text-muted-foreground" />
               </div>
             )}
@@ -158,7 +158,7 @@ export default function JobDetailPage() {
                 <Sparkles className="w-5 h-5 text-muted-foreground" />
                 <h2 className="text-lg font-semibold text-foreground">Prompt</h2>
               </div>
-              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+              <div className="bg-secondary border border-border rounded-lg p-4">
                 <p className="text-foreground whitespace-pre-wrap leading-relaxed">{job.prompt}</p>
               </div>
             </div>
@@ -170,7 +170,7 @@ export default function JobDetailPage() {
               <Tag className="w-5 h-5 text-muted-foreground" />
               <h2 className="text-lg font-semibold text-foreground">Category</h2>
             </div>
-            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
+            <div className="bg-secondary border border-border rounded-lg p-4">
               <p className="text-foreground font-medium">{getCategoryName(job.category_id || 0)}</p>
             </div>
           </div>
@@ -186,7 +186,7 @@ export default function JobDetailPage() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setTranscriptCollapsed(!transcriptCollapsed)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-foreground text-sm font-medium transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground text-sm font-medium transition-all"
                   >
                     {transcriptCollapsed ? (
                       <>
@@ -202,7 +202,7 @@ export default function JobDetailPage() {
                   </button>
                   <button
                     onClick={handleCopyTranscript}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-foreground text-sm font-medium transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground text-sm font-medium transition-all"
                   >
                     {copiedTranscript ? (
                       <>
@@ -219,7 +219,7 @@ export default function JobDetailPage() {
                 </div>
               </div>
               {!transcriptCollapsed && (
-                <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 max-h-96 overflow-y-auto">
+                <div className="bg-secondary border border-border rounded-lg p-4 max-h-96 overflow-y-auto">
                   <div className="text-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: marked.parse(job.transcript) as string }} />
                 </div>
               )}
@@ -236,7 +236,7 @@ export default function JobDetailPage() {
                 </div>
                 <button
                   onClick={handleCopySummary}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-foreground text-sm font-medium transition-all"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 text-foreground text-sm font-medium transition-all"
                 >
                   {copiedSummary ? (
                     <>
@@ -251,10 +251,10 @@ export default function JobDetailPage() {
                   )}
                 </button>
               </div>
-              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 max-h-192 overflow-y-auto">
-                <div 
-                  className="prose max-w-none prose-black leading-relaxed" 
-                  dangerouslySetInnerHTML={{ __html: marked.parse(job.summary) as string }} 
+              <div className="bg-secondary border border-border rounded-lg p-4 max-h-192 overflow-y-auto">
+                <div
+                  className="prose max-w-none prose-black dark:prose-invert leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: marked.parse(job.summary) as string }}
                 />
               </div>
             </div>
@@ -267,16 +267,16 @@ export default function JobDetailPage() {
                 <AlertCircle className="w-5 h-5 text-red-600" />
                 <h2 className="text-lg font-semibold text-foreground">Error</h2>
               </div>
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-700">{job.error_msg}</p>
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                <p className="text-red-700 dark:text-red-400">{job.error_msg}</p>
               </div>
             </div>
           )}
 
           {/* Status Info for non-completed jobs */}
           {!isCompleted(job.status) && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <p className="text-yellow-800">
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+              <p className="text-yellow-800 dark:text-yellow-300">
                 This job is still being processed. Please check back later for the full transcript and summary.
               </p>
             </div>
