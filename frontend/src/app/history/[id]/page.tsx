@@ -54,19 +54,67 @@ export default function JobDetailPage() {
   };
 
   const handleCopyTranscript = async () => {
-    if (job?.transcript) {
-      await navigator.clipboard.writeText(job.transcript);
+    if (!job?.transcript) return;
+    
+    // Check if navigator.clipboard is available (requires HTTPS or localhost)
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(job.transcript);
+        setCopiedTranscript(true);
+        setTimeout(() => setCopiedTranscript(false), 2000);
+        return;
+      } catch (err) {
+        console.log("navigator.clipboard failed, trying fallback", err);
+      }
+    }
+    
+    // Fallback for browsers without clipboard API (non-HTTPS contexts)
+    const textArea = document.createElement("textarea");
+    textArea.value = job.transcript;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
       setCopiedTranscript(true);
       setTimeout(() => setCopiedTranscript(false), 2000);
+    } catch (e) {
+      console.error("Failed to copy transcript", e);
     }
+    document.body.removeChild(textArea);
   };
 
   const handleCopySummary = async () => {
-    if (job?.summary) {
-      await navigator.clipboard.writeText(job.summary);
+    if (!job?.summary) return;
+    
+    // Check if navigator.clipboard is available (requires HTTPS or localhost)
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(job.summary);
+        setCopiedSummary(true);
+        setTimeout(() => setCopiedSummary(false), 2000);
+        return;
+      } catch (err) {
+        console.log("navigator.clipboard failed, trying fallback", err);
+      }
+    }
+    
+    // Fallback for browsers without clipboard API (non-HTTPS contexts)
+    const textArea = document.createElement("textarea");
+    textArea.value = job.summary;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
       setCopiedSummary(true);
       setTimeout(() => setCopiedSummary(false), 2000);
+    } catch (e) {
+      console.error("Failed to copy summary", e);
     }
+    document.body.removeChild(textArea);
   };
 
   if (isLoading) {
