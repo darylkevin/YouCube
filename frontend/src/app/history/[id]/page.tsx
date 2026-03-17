@@ -191,12 +191,12 @@ export default function JobDetailPage() {
                     {transcriptCollapsed ? (
                       <>
                         <ChevronDown className="w-4 h-4" />
-                        Expand
+                        <span className="hidden sm:inline">Expand</span>
                       </>
                     ) : (
                       <>
                         <ChevronUp className="w-4 h-4" />
-                        Collapse
+                        <span className="hidden sm:inline">Collapse</span>
                       </>
                     )}
                   </button>
@@ -207,12 +207,12 @@ export default function JobDetailPage() {
                     {copiedTranscript ? (
                       <>
                         <Check className="w-4 h-4" />
-                        Copied!
+                        <span className="hidden sm:inline">Copied!</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-4 h-4" />
-                        Copy
+                        <span className="hidden sm:inline">Copy</span>
                       </>
                     )}
                   </button>
@@ -241,12 +241,12 @@ export default function JobDetailPage() {
                   {copiedSummary ? (
                     <>
                       <Check className="w-4 h-4" />
-                      Copied!
+                      <span className="hidden sm:inline">Copied!</span>
                     </>
                   ) : (
                     <>
                       <Copy className="w-4 h-4" />
-                      Copy
+                      <span className="hidden sm:inline">Copy</span>
                     </>
                   )}
                 </button>
