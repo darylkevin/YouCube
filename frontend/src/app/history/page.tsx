@@ -20,6 +20,7 @@ import {
   Sparkles,
   Zap,
   Clock as ClockIcon,
+  RefreshCwIcon
 } from "lucide-react";
 import { JobStatus } from "@/lib/types";
 import Link from "next/link";
@@ -33,7 +34,7 @@ export default function HistoryPage() {
   const [selectedJobs, setSelectedJobs] = useState<Set<number>>(new Set());
 
   // Fetch one extra item to detect if there's more content
-  const { data: jobs, isLoading, isFetching } = useJobs(PAGE_SIZE + 1, page * PAGE_SIZE);
+  const { data: jobs, isLoading, isFetching, refetch } = useJobs(PAGE_SIZE + 1, page * PAGE_SIZE);
   const { data: jobsCount } = useJobsCount();
   const { data: categories } = useCategories();
   const deleteJob = useDeleteJob();
@@ -187,12 +188,21 @@ export default function HistoryPage() {
           </div>
           {
             !bulkDeleteMode && (
-              <button
-                onClick={toggleBulkDeleteMode}
-                className="shrink-0 p-2 inline-flex items-center justify-center rounded-lg text-foreground text-sm font-medium transition-all hover:scale-105 hover:bg-secondary"
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
+              <>
+                <button
+                  onClick={() => refetch()}
+                  disabled={isFetching}
+                  className="shrink-0 p-2 inline-flex items-center justify-center rounded-lg text-foreground text-sm font-medium transition-all hover:scale-105 hover:bg-secondary disabled:opacity-50"
+                >
+                  <RefreshCw className={`w-5 h-5 ${isFetching ? "animate-spin" : ""}`} /> 
+                </button>
+                <button
+                  onClick={toggleBulkDeleteMode}
+                  className="shrink-0 p-2 inline-flex items-center justify-center rounded-lg text-foreground text-sm font-medium transition-all hover:scale-105 hover:bg-secondary"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              </>
             )
           }
         </div>
