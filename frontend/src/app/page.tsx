@@ -5,6 +5,7 @@ import { useSubmitJob, useCategories, usePromptsByCategory, useJobs } from "@/ho
 import { Send, Loader2, AlertCircle, ChevronDown } from "lucide-react";
 import { JobStatusBadge } from "@/components/JobStatusBadge";
 import { JobsCarousel } from "@/components/JobsCarousel";
+import Link from "next/link";
 
 export default function HomePage() {
   const [url, setUrl] = useState("");
@@ -70,20 +71,26 @@ export default function HomePage() {
 
       {/* Recent Job Status */}
       {submittedJobId && (
-        <div className="bg-card rounded-lg shadow-sm border p-3 sm:p-4">
+        <Link
+          href={`/history/${submittedJobId}`}
+          className="block bg-card rounded-lg shadow-sm border p-3 sm:p-4 hover:shadow-md transition-all"
+        >
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-medium text-foreground mb-1">Latest Job Status</h3>
               <JobStatusBadge jobId={submittedJobId} />
             </div>
             <button
-              onClick={() => setSubmittedJobId(null)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSubmittedJobId(null);
+              }}
               className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-all shrink-0"
             >
               Dismiss
             </button>
           </div>
-        </div>
+        </Link>
       )}
 
       {/* Form */}

@@ -49,8 +49,12 @@ export default function JobDetailPage() {
     });
   };
 
-  const isCompleted = (status: string) => {
+  const isFullyCompleted = (status: string) => {
     return status === JobStatus.SUMMARIZATION_COMPLETED || status === JobStatus.TRANSCRIPTION_COMPLETED;
+  };
+
+  const isSummarizationCompleted = (status: string) => {
+    return status === JobStatus.SUMMARIZATION_COMPLETED;
   };
 
   const handleCopyTranscript = async () => {
@@ -172,7 +176,7 @@ export default function JobDetailPage() {
               </div>
             )}
             <div className="flex-1 min-w-0 w-full">
-              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2 break-words">
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground mb-2 wrap-break-word">
                 {job.youtube_title || "Untitled Video"}
               </h1>
               <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-2 sm:gap-4 text-sm text-muted-foreground mb-3">
@@ -199,7 +203,7 @@ export default function JobDetailPage() {
 
         {/* Details */}
         <div className="p-6 space-y-6">
-          {/* Prompt */}
+          {/* Prompt - Show for all jobs if available */}
           {job.prompt && (
             <div className="space-y-3">
               <div className="flex items-center gap-2">
@@ -223,8 +227,8 @@ export default function JobDetailPage() {
             </div>
           </div>
 
-          {/* Transcript */}
-          {job.transcript && (
+          {/* Transcript - Only show for fully completed jobs */}
+          {job.transcript && isFullyCompleted(job.status) && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -274,8 +278,8 @@ export default function JobDetailPage() {
             </div>
           )}
 
-          {/* Summary */}
-          {job.summary && (
+          {/* Summary - Only show for fully completed jobs */}
+          {job.summary && isFullyCompleted(job.status) && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -321,11 +325,11 @@ export default function JobDetailPage() {
             </div>
           )}
 
-          {/* Status Info for non-completed jobs */}
-          {!isCompleted(job.status) && (
+          {/* Status Info for non-fully-completed jobs */}
+          {!isFullyCompleted(job.status) && (
             <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
               <p className="text-yellow-800 dark:text-yellow-300">
-                This job is still being processed. Please check back later for the full transcript and summary.
+                This job is still being processed or only partially completed. Please check back later for the full transcript and summary.
               </p>
             </div>
           )}

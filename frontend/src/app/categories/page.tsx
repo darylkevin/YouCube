@@ -452,7 +452,7 @@ export default function CategoriesPage() {
                             </div>
                           ) : (
                             <div className="flex items-start justify-between gap-3">
-                              <p className="text-sm text-foreground flex-1 break-words">{prompt.text}</p>
+                              <p className="text-sm text-foreground flex-1 wrap-break-word">{prompt.text}</p>
                               <div className="flex items-center gap-1 shrink-0">
                                 <button
                                   onClick={() => handleStartEditPrompt(prompt)}
@@ -494,9 +494,10 @@ export default function CategoriesPage() {
                       </div>
                     ) : (
                       displayCategoryJobs?.map((job) => (
-                        <div
+                        <Link
                           key={job.id}
-                          className="border rounded-lg p-3 sm:p-4 hover:border-gray-300 transition-colors bg-card"
+                          href={`/history/${job.id}`}
+                          className="block border rounded-lg p-3 sm:p-4 transition-colors hover:border-gray-300 dark:hover:border-gray-600 bg-card"
                         >
                           <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
                             {job.youtube_thumbnail ? (
@@ -522,20 +523,12 @@ export default function CategoriesPage() {
                               </div>
                               <div className="flex flex-wrap items-center gap-2 mt-2">
                                 <JobStatusBadge jobId={job.id} compact />
-                                {isCompleted(job.status) && (
-                                  <Link
-                                    href={`/history/${job.id}`}
-                                    className="inline-flex items-center gap-1 text-xs sm:text-sm text-muted-foreground hover:text-foreground hover:underline transition-all"
-                                  >
-                                    <FileText className="w-3 h-3 hover:scale-110 transition-transform" />
-                                    View Details
-                                  </Link>
-                                )}
                                 {job.url && (
                                   <a
                                     href={job.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
                                     className="inline-flex items-center gap-1 text-xs sm:text-sm text-red-600 hover:text-red-700 hover:underline transition-all"
                                   >
                                     <ExternalLink className="w-3 h-3 hover:scale-110 transition-transform" />
@@ -545,7 +538,7 @@ export default function CategoriesPage() {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       ))
                     )}
                   </div>

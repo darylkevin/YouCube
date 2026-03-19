@@ -118,9 +118,10 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
       {/* Carousel Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {visibleJobs.map((job) => (
-          <div
+          <Link
             key={job.id}
-            className="bg-card rounded-lg shadow-sm border overflow-hidden hover:shadow-md hover-lift cursor-pointer"
+            href={`/history/${job.id}`}
+            className="bg-card rounded-lg shadow-sm border overflow-hidden transition-colors hover:border-gray-300 dark:hover:border-gray-600 cursor-pointer block"
           >
             {/* Thumbnail */}
             <div className="relative group">
@@ -145,7 +146,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
             {/* Card Content */}
             <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
               {/* Title */}
-              <h3 className="font-medium text-foreground text-sm sm:text-base line-clamp-2 min-h-[2.5rem] sm:min-h-10">
+              <h3 className="font-medium text-foreground text-sm sm:text-base line-clamp-2 min-h-10 sm:min-h-10">
                 {job.youtube_title || "Untitled Video"}
               </h3>
 
@@ -173,24 +174,19 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
                     href={job.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-red-600 hover:bg-red-700 text-white transition-all hover:scale-105"
                   >
                     <ExternalLink className="w-3 h-3 hover:scale-110 transition-transform" />
                     <span className="hidden sm:inline">Watch</span>
                   </a>
                 )}
-                {isCompleted(job.status) && (
-                  <Link
-                    href={`/history/${job.id}`}
-                    className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-secondary/80 hover:bg-secondary text-foreground transition-all hover:scale-105"
-                  >
-                    <FileText className="w-3 h-3 hover:scale-110 transition-transform" />
-                    <span className="hidden sm:inline">Details</span>
-                  </Link>
-                )}
                 {isFailedOrCancelled(job.status) && (
                   <button
-                    onClick={() => handleRetry(job.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRetry(job.id);
+                    }}
                     disabled={retryJob.isPending}
                     className="flex-1 inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-2 rounded-md text-xs font-medium bg-green-600 hover:bg-green-700 text-white transition-all hover:scale-105 disabled:opacity-50"
                   >
@@ -200,7 +196,7 @@ export function JobsCarousel({ categories }: JobsCarouselProps) {
                 )}
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 

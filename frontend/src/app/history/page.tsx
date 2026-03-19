@@ -162,13 +162,13 @@ export default function HistoryPage() {
         {/* Stats Banner */}
         {totalJobs > 0 && (
           <div className="relative mx-auto overflow-hidden rounded-xl sm:rounded-2xl p-0.5">
-            <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 opacity-50 blur-xl animate-pulse"></div>
-            <div className="relative bg-card rounded-xl sm:rounded-2xl p-4 sm:p-6">
+            <div className="absolute inset-0  opacity-50 blur-xl animate-pulse"></div>
+            <div className="relative rounded-xl sm:rounded-2xl p-4 sm:p-6">
               <div className="flex items-center justify-center gap-2 mb-3">
               </div>
               <p className="text-lg sm:text-2xl font-semibold text-foreground mb-2 text-center">
                 🎉 You&apos;ve transcribed and summarized{" "}
-                <span className="text-xl sm:text-3xl bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                <span className="text-xl sm:text-3xl bg-linear-to-r from-red-700 via-red-600 to-red-500 bg-clip-text text-transparent">
                   {totalJobs}
                 </span>{" "}
                 {totalJobs === 1 ? "video" : "videos"}!
@@ -272,19 +272,19 @@ export default function HistoryPage() {
           </div>
         ) : (
           <>
-            {displayJobs?.map((job) => (
-              <div
-                key={job.id}
-                className={`bg-card rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-all ${
-                  selectedJobs.has(job.id) ? "ring-2 ring-red-500 ring-offset-2" : ""
-                }`}
-              >
+            {displayJobs?.map((job) => {
+              const rowContent = (
                 <div className="p-3 sm:p-4">
                   <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
                     {/* Checkbox - Only show in bulk delete mode */}
                     {bulkDeleteMode && (
                       <button
-                        onClick={() => toggleSelectJob(job.id)}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSelectJob(job.id);
+                        }}
+                        onMouseDown={(e) => e.stopPropagation()}
                         className="shrink-0 hover:scale-110 transition-transform"
                         title={selectedJobs.has(job.id) ? "Deselect" : "Select"}
                       >
@@ -337,24 +337,19 @@ export default function HistoryPage() {
                             href={job.url}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
                             className="inline-flex items-center gap-1 text-sm text-red-600 hover:text-red-700 hover:underline transition-all"
                           >
                             <ExternalLink className="w-3 h-3 hover:scale-110 transition-transform" />
                             Watch Video
                           </a>
                         )}
-                        {isCompleted(job.status) && (
-                          <Link
-                            href={`/history/${job.id}`}
-                            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground hover:underline transition-all"
-                          >
-                            <FileText className="w-3 h-3 hover:scale-110 transition-transform" />
-                            View Details
-                          </Link>
-                        )}
                         {isProcessing(job.status) && (
                           <button
-                            onClick={() => handleCancel(job.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCancel(job.id);
+                            }}
                             disabled={cancelJob.isPending}
                             className="inline-flex items-center gap-1 text-sm text-orange-600 hover:text-orange-700 disabled:opacity-50 hover:underline transition-all"
                           >
@@ -364,7 +359,10 @@ export default function HistoryPage() {
                         )}
                         {isFailedOrCancelled(job.status) && (
                           <button
-                            onClick={() => handleRetry(job.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRetry(job.id);
+                            }}
                             disabled={retryJob.isPending}
                             className="inline-flex items-center gap-1 text-sm text-orange-400 hover:text-orange-500 disabled:opacity-50 hover:underline transition-all"
                           >
@@ -374,7 +372,10 @@ export default function HistoryPage() {
                         )}
                         {!bulkDeleteMode && (
                           <button
-                            onClick={() => handleDelete(job.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDelete(job.id);
+                            }}
                             disabled={deleteJob.isPending}
                             className="inline-flex items-center gap-1 text-sm text-red-600 hover:text-red-700 disabled:opacity-50 hover:underline transition-all sm:ml-auto"
                           >
@@ -386,44 +387,32 @@ export default function HistoryPage() {
                     </div>
                   </div>
                 </div>
+              );
 
-                {/* Expanded Details */}
-                {expandedJobId === job.id && isCompleted(job.status) && (
-                  <div className="border-t border-border bg-secondary p-4 space-y-4">
-                    {job.prompt && (
-                      <div>
-                        <h4 className="text-sm font-medium text-foreground mb-1">Prompt</h4>
-                        <p className="text-sm text-foreground bg-card rounded-md p-3 border border-border">
-                          {job.prompt}
-                        </p>
-                      </div>
-                    )}
-                    {job.transcript && (
-                      <div>
-                        <h4 className="text-sm font-medium text-foreground mb-1">Transcript</h4>
-                        <div className="text-sm text-foreground bg-card rounded-md p-3 border border-border max-h-48 overflow-y-auto whitespace-pre-wrap">
-                          {job.transcript}
-                        </div>
-                      </div>
-                    )}
-                    {job.summary && (
-                      <div>
-                        <h4 className="text-sm font-medium text-foreground mb-1">Summary</h4>
-                        <div className="text-sm text-foreground bg-card rounded-md p-3 border border-border max-h-48 overflow-y-auto whitespace-pre-wrap">
-                          {job.summary}
-                        </div>
-                      </div>
-                    )}
-                    {job.error_msg && (
-                      <div className="flex items-start gap-2 text-red-600 bg-red-50 p-3 rounded-md">
-                        <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                        <span className="text-sm">{job.error_msg}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
+              return bulkDeleteMode ? (
+                <div
+                  key={job.id}
+                  onClick={() => toggleSelectJob(job.id)}
+                  className={`bg-card rounded-lg shadow-sm border overflow-hidden transition-colors cursor-pointer ${
+                    selectedJobs.has(job.id)
+                      ? "ring-2 ring-red-500 ring-offset-2"
+                      : "hover:border-gray-300 dark:hover:border-gray-600"
+                  }`}
+                >
+                  {rowContent}
+                </div>
+              ) : (
+                <Link
+                  key={job.id}
+                  href={`/history/${job.id}`}
+                  className={`block bg-card rounded-lg shadow-sm border overflow-hidden transition-colors hover:border-gray-300 dark:hover:border-gray-600 ${
+                    selectedJobs.has(job.id) ? "ring-2 ring-red-500 ring-offset-2" : ""
+                  }`}
+                >
+                  {rowContent}
+                </Link>
+              );
+            })}
 
             {/* Pagination Controls */}
             {displayJobs && displayJobs.length > 0 && (
