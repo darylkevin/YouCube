@@ -1,4 +1,5 @@
 import re
+import logging
 import serpapi
 import requests
 
@@ -115,70 +116,85 @@ def fetch_youtube_transcript(video_id: str) -> str:
         raise HTTPException(status_code=500, detail=f"Both transcript sources failed. Traceback: {str(error)}")
 
 
-# --- OpenRouter Client ---
-def fetch_summary_openrouter(prompt: str, transcript: str) -> str:
-    """Calls OpenRouter API for summarization."""
+# --- AI Summary Client (DeepSeek → OpenRouter fallback) ---
+def fetch_ai_summary(prompt: str, transcript: str) -> str:
+    """Calls DeepSeek API first; falls back to OpenRouter models on failure."""
 
     if transcript == "":
         raise HTTPException(status_code=400, detail="No transcripts provided. Cannot summarize.")
 
+    summary_prompt = f"""
+        You are an expert analyst and professional writer, tasked with creating a clear and insightful summary based on a user's request and a provided transcript. Your response must be meticulously structured in Markdown.
+        ---
+        ### **1. User's Core Request**
+        
+        {prompt}
+        ---
+        ### **2. Formatting and Style Mandates**
+
+        You must adhere to the following rules without exception:
+        *   **Language:** The entire response must be in English.
+        *   **Main Title:** Start with a single, compelling main title using H1 Markdown (`#`).
+        *   **Subheadings:** Structure the body of the response under exactly three (3) descriptive subheadings using H2 Markdown (`##`).
+        *   **Emphasis:** Identify and highlight all **key terminology**, **concepts**, and **proper nouns** by making them **bold**. This is crucial for reader comprehension.
+        *   **Lists:** When presenting advantages, disadvantages, features, or sequential points, use bulleted lists (`-`). This is required for any "pros and cons" sections.
+        *   **Tone:** Maintain a professional, objective, and informative tone.
+        *   **Markdown Purity:** Generate clean, standard Markdown. Do not use HTML tags or any non-standard syntax.
+        ---
+        ### **3. Source Material**
+        Analyze the following transcript to extract the necessary information to fulfill the user's request.
+
+        **BEGIN VIDEO TRANSCRIPT:**
+        {transcript}
+        **END VIDEO TRANSCRIPT:**
+
+        ---
+        Proceed with generating the response, ensuring every mandate is met.
+    """
+
+    # --- Attempt 1: DeepSeek ---
+    try:
+        deepseek_headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}",
+        }
+        deepseek_payload = {
+            "model": "deepseek-chat",
+            "messages": [{"role": "user", "content": summary_prompt}],
+        }
+
+        response = http_session.post(settings.DEEPSEEK_URL, json=deepseek_payload, headers=deepseek_headers, timeout=60)
+        response.raise_for_status()
+        choices = response.json().get("choices", [])
+        return choices[0].get("message", {}).get("content", "")
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.warning(f"DeepSeek failed, falling back to OpenRouter: {e}")
+
+    # --- Attempt 2: OpenRouter (3 model attempts) ---
     model_attempts = [settings.OPENROUTER_FREE_MODEL1, settings.OPENROUTER_FREE_MODEL2, settings.OPENROUTER_FREE_MODEL3]
 
-    headers = {
+    openrouter_headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {settings.OPENROUTER_KEY}",
     }
 
-    payload = {
-        "messages": [
-            {
-                "role": "user",
-                "content":  f"""
-                    You are an expert analyst and professional writer, tasked with creating a clear and insightful summary based on a user's request and a provided transcript. Your response must be meticulously structured in Markdown.
-                    ---
-                    ### **1. User's Core Request**
-                    
-                    {prompt}
-                    ---
-                    ### **2. Formatting and Style Mandates**
-
-                    You must adhere to the following rules without exception:
-                    *   **Language:** The entire response must be in English.
-                    *   **Main Title:** Start with a single, compelling main title using H1 Markdown (`#`).
-                    *   **Subheadings:** Structure the body of the response under exactly three (3) descriptive subheadings using H2 Markdown (`##`).
-                    *   **Emphasis:** Identify and highlight all **key terminology**, **concepts**, and **proper nouns** by making them **bold**. This is crucial for reader comprehension.
-                    *   **Lists:** When presenting advantages, disadvantages, features, or sequential points, use bulleted lists (`-`). This is required for any "pros and cons" sections.
-                    *   **Tone:** Maintain a professional, objective, and informative tone.
-                    *   **Markdown Purity:** Generate clean, standard Markdown. Do not use HTML tags or any non-standard syntax.
-                    ---
-                    ### **3. Source Material**
-                    Analyze the following transcript to extract the necessary information to fulfill the user's request.
-
-                    **BEGIN VIDEO TRANSCRIPT:**
-                    {transcript}
-                    **END VIDEO TRANSCRIPT:**
-
-                    ---
-                    Proceed with generating the response, ensuring every mandate is met.
-                """,
-            }
-        ],
-        "reasoning": {
-            "enabled": True
-        }
+    openrouter_payload = {
+        "messages": [{"role": "user", "content": summary_prompt}],
+        "reasoning": {"enabled": True},
     }
-    
+
     for model in model_attempts:
         try:
-            payload["model"] = model
+            openrouter_payload["model"] = model
 
             # ALWAYS use timeouts in Celery, otherwise a hanging request freezes the worker
-            response = http_session.post(settings.OPENROUTER_URL, json=payload, headers=headers, timeout=60)
+            response = http_session.post(settings.OPENROUTER_URL, json=openrouter_payload, headers=openrouter_headers, timeout=60)
             response.raise_for_status()
             choices = response.json().get("choices", [])
 
             return choices[0].get("message", {}).get("content", "")
         except requests.RequestException:
             continue
-    
-    raise HTTPException(status_code=500, detail="Failed to fetch summary from OpenRouter after multiple attempts.")
+
+    raise HTTPException(status_code=500, detail="Failed to fetch summary from DeepSeek and all OpenRouter models.")

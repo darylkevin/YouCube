@@ -4,7 +4,7 @@ from celery import Celery, chain
 from database import TaskPayload, JobStatus
 from celery.utils.log import get_task_logger
 from utils import update_existing_job, fail_existing_job
-from clients import fetch_youtube_transcript, fetch_summary_openrouter
+from clients import fetch_youtube_transcript, fetch_ai_summary
 
 logger = get_task_logger(__name__)
 
@@ -76,7 +76,7 @@ def task_b1_local_ai_summarization(
             status=JobStatus.SUMMARIZING,
         )
 
-        summary = fetch_summary_openrouter(prompt, transcript)
+        summary = fetch_ai_summary(prompt, transcript)
 
         update_existing_job(
             job_id=db_id,
