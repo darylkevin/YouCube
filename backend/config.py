@@ -27,8 +27,9 @@ class Settings(BaseSettings):
     SERPAPI_URL: str
     SERPAPI_KEY: str
     
-    DEEPSEEK_URL: str
-    DEEPSEEK_API_KEY: str
+    ATLASCLOUD_URL: str
+    ATLASCLOUD_API_KEY: str
+    ATLASCLOUD_MODEL: str
 
     OPENROUTER_URL: str
     OPENROUTER_KEY: str

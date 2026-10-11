@@ -116,9 +116,9 @@ def fetch_youtube_transcript(video_id: str) -> str:
         raise HTTPException(status_code=500, detail=f"Both transcript sources failed. Traceback: {str(error)}")
 
 
-# --- AI Summary Client (DeepSeek → OpenRouter fallback) ---
+# --- AI Summary Client (Atlas Cloud → OpenRouter fallback) ---
 def fetch_ai_summary(prompt: str, transcript: str) -> str:
-    """Calls DeepSeek API first; falls back to OpenRouter models on failure."""
+    """Calls Atlas Cloud API first; falls back to OpenRouter models on failure."""
 
     if transcript == "":
         raise HTTPException(status_code=400, detail="No transcripts provided. Cannot summarize.")
@@ -152,24 +152,24 @@ def fetch_ai_summary(prompt: str, transcript: str) -> str:
         Proceed with generating the response, ensuring every mandate is met.
     """
 
-    # --- Attempt 1: DeepSeek ---
+    # --- Attempt 1: Atlas Cloud ---
     try:
-        deepseek_headers = {
+        atlascloud_headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}",
+            "Authorization": f"Bearer {settings.ATLASCLOUD_API_KEY}",
         }
-        deepseek_payload = {
-            "model": "deepseek-chat",
+        atlascloud_payload = {
+            "model": settings.ATLASCLOUD_MODEL,
             "messages": [{"role": "user", "content": summary_prompt}],
         }
 
-        response = http_session.post(settings.DEEPSEEK_URL, json=deepseek_payload, headers=deepseek_headers, timeout=60)
+        response = http_session.post(settings.ATLASCLOUD_URL, json=atlascloud_payload, headers=atlascloud_headers, timeout=60)
         response.raise_for_status()
         choices = response.json().get("choices", [])
         return choices[0].get("message", {}).get("content", "")
     except Exception as e:
         logger = logging.getLogger(__name__)
-        logger.warning(f"DeepSeek failed, falling back to OpenRouter: {e}")
+        logger.warning(f"Atlas Cloud failed, falling back to OpenRouter: {e}")
 
     # --- Attempt 2: OpenRouter (3 model attempts) ---
     model_attempts = [settings.OPENROUTER_FREE_MODEL1, settings.OPENROUTER_FREE_MODEL2, settings.OPENROUTER_FREE_MODEL3]
@@ -197,4 +197,4 @@ def fetch_ai_summary(prompt: str, transcript: str) -> str:
         except requests.RequestException:
             continue
 
-    raise HTTPException(status_code=500, detail="Failed to fetch summary from DeepSeek and all OpenRouter models.")
+    raise HTTPException(status_code=500, detail="Failed to fetch summary from Atlas Cloud and all OpenRouter models.")

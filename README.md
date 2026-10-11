@@ -29,7 +29,8 @@ Transform YouTube videos into AI-powered transcriptions and summaries. YouCube i
 ### External APIs
 - **YouTube Transcript API**: Video transcript extraction
 - **SerpAPI**: YouTube search and metadata
-- **OpenRouter API**: LLM access for summarization (supports multiple models)
+- **Atlas Cloud API**: Primary LLM for summarization (OpenAI-compatible endpoint)
+- **OpenRouter API**: Fallback LLM access for summarization (supports multiple models)
 
 ## Project Structure
 
@@ -58,6 +59,7 @@ YouCube/
 - **Redis** server
 - API keys for:
   - SerpAPI
+  - Atlas Cloud API
   - OpenRouter API
 
 ## Installation
@@ -105,11 +107,16 @@ YouCube/
    CELERY_WORKER_CONCURRENCY=4
 
    # SerpAPI
-   SERPAPI_URL=https://serpapi.com
+   SERPAPI_URL=https://serpapi.com/search
    SERPAPI_KEY=your_serpapi_key
 
-   # OpenRouter
-   OPENROUTER_URL=https://openrouter.ai/api
+   # Atlas Cloud
+   ATLASCLOUD_URL=https://api.atlascloud.ai/v1/chat/completions
+   ATLASCLOUD_API_KEY=your_atlascloud_key
+   ATLASCLOUD_MODEL=glm-5.3-flash
+
+   # OpenRouter (fallback)
+   OPENROUTER_URL=https://openrouter.ai/api/v1/chat/completions
    OPENROUTER_KEY=your_openrouter_key
    OPENROUTER_FREE_MODEL1=google/gemma-2-9b-it:free
    OPENROUTER_FREE_MODEL2=meta-llama/llama-3-8b-instruct:free
