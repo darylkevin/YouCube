@@ -13,7 +13,7 @@ WORKDIR /app
 COPY backend/requirements.txt backend/
 RUN pip install --no-cache-dir -r backend/requirements.txt
 
-COPY frontend/package.json frontend/pnpm-lock.yaml frontend/
+COPY frontend/package.json frontend/pnpm-lock.yaml frontend/pnpm-workspace.yaml frontend/
 RUN cd frontend && pnpm install --frozen-lockfile
 
 COPY . .
