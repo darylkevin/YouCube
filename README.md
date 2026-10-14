@@ -113,7 +113,7 @@ YouCube/
    # Atlas Cloud
    ATLASCLOUD_URL=https://api.atlascloud.ai/v1/chat/completions
    ATLASCLOUD_API_KEY=your_atlascloud_key
-   ATLASCLOUD_MODEL=zai-org/glm-5.3-flash
+   ATLASCLOUD_MODEL=deepseek-ai/deepseek-v4.1-flash
 
    # OpenRouter (fallback)
    OPENROUTER_URL=https://openrouter.ai/api/v1/chat/completions
