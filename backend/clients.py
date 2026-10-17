@@ -20,6 +20,7 @@ def get_http_session() -> requests.Session:
         total=3,
         backoff_factor=1,
         status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
     )
     adapter = HTTPAdapter(max_retries=retries)
     session.mount("http://", adapter)
